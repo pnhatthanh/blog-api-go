@@ -9,11 +9,12 @@ import (
 )
 
 func main() {
-	var db *gorm.DB=config.ConnectWithDb()
+	var db *gorm.DB = config.ConnectWithDb()
 	defer config.CloseDbConnection(db)
-	server := api.NewAPIServer(":8080",db)
-	error:=server.Run()
-	if error!=nil{
+	port := config.GetEnvOrDefault("APP_PORT", "8080")
+	server := api.NewAPIServer(port, db)
+	error := server.Run()
+	if error != nil {
 		log.Fatal(error)
 	}
 }

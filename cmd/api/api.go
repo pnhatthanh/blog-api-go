@@ -1,7 +1,6 @@
 package api
 
 import (
-	"blogapi/config"
 	"log"
 	"net/http"
 
@@ -14,8 +13,7 @@ type APIServer struct {
 	Db      *gorm.DB
 }
 
-func NewAPIServer(addr string, db *gorm.DB) *APIServer {
-	port := config.GetEnvOrDefault("APP_PORT", "8080")
+func NewAPIServer(port string, db *gorm.DB) *APIServer {
 	return &APIServer{
 		Address: ":" + port,
 		Db:      db,
