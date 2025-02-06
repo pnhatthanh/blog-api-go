@@ -23,7 +23,7 @@ func NewCommentRepository(db *gorm.DB) *commentRepository {
 
 func (repo *commentRepository) GetAllComments(postId string, offset, limit int) []*models.Comment {
 	var comments []*models.Comment
-	repo.db.Where("post_id= ?", postId).Order("created_at desc").
+	repo.db.Preload("User").Where("post_id= ?", postId).Order("created_at desc").
 		Limit(limit).Offset(offset).Find(&comments)
 	return comments
 }

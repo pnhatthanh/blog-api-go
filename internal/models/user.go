@@ -11,8 +11,8 @@ type User struct {
 	Id        string `gorm:"primaryKey"`
 	FullName  string
 	Email     string
-	Password  string
-	CreatedAt time.Time
+	Password  string    `json:"-"`
+	CreatedAt time.Time `json:"-"`
 }
 
 func (u *User) BeforeCreate(db *gorm.DB) (err error) {

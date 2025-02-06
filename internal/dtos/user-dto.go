@@ -11,6 +11,7 @@ type UpdateUserInput struct {
 	Password string `json:"password" validate:"min=8"`
 }
 type UserReponse struct {
+	UserId string `json:"user_id"`
 	FullName string `json:"full_name" `
 	Email    string `json:"email"`
 }
