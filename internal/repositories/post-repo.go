@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"blogapi/internal/dtos"
 	"blogapi/internal/models"
 
 	"gorm.io/gorm"
@@ -11,7 +10,7 @@ type PostRepository interface {
 	GetAll(offset, limit int) []*models.Post
 	GetById(id string) (*models.Post, error)
 	Delete(id string) error
-	Create(post *dtos.CreatePostInput) *models.Post
+	Create(post *models.Post) *models.Post
 }
 type postRepository struct {
 	db *gorm.DB
@@ -48,12 +47,7 @@ func (repo *postRepository) Delete(id string) error {
 	}
 	return nil
 }
-func (repo *postRepository) Create(post *dtos.CreatePostInput) *models.Post {
-	_post := models.Post{
-		Title:   post.Title,
-		Content: post.Content,
-		UserId:  post.UserId,
-	}
-	repo.db.Create(&_post)
-	return &_post
+func (repo *postRepository) Create(post *models.Post) *models.Post {
+	repo.db.Create(post)
+	return post
 }

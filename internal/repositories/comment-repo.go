@@ -1,17 +1,16 @@
 package repositories
 
 import (
-	"blogapi/internal/dtos"
 	"blogapi/internal/models"
-
 	"gorm.io/gorm"
 )
 
 type CommentRepository interface {
 	GetAllComments(postId string, offset, limit int) []*models.Comment
-	CreateComment(id string, comment *dtos.CommentInput) *models.Comment
-	UpdateComment(comment *dtos.CommentInput) (*models.Comment, error)
+	CreateComment(comment *models.Comment) *models.Comment
+	UpdateComment( comment *models.Comment) error
 	Delete(id string) error
+	GetById(id string) (*models.Comment,error)
 }
 type commentRepository struct {
 	db *gorm.DB
@@ -28,26 +27,24 @@ func (repo *commentRepository) GetAllComments(postId string, offset, limit int) 
 	return comments
 }
 
-func (repo *commentRepository) CreateComment(comment *dtos.CommentInput) *models.Comment {
-	_comment := models.Comment{
-		Content: comment.Content,
-		PostId:  comment.PostId,
-		UserId:  comment.UserId,
-	}
-	repo.db.Create(&_comment)
-	return &_comment
+func (repo *commentRepository) CreateComment(comment *models.Comment) *models.Comment {
+	repo.db.Create(comment)
+	return comment
 }
 
-func (repo *commentRepository) UpdateComment(id string, comment *dtos.CommentInput) (*models.Comment, error) {
-	var _comment models.Comment
-	if err := repo.db.First(&_comment, "id = ?", id).Error; err != nil {
-		return nil, err
+func(repo *commentRepository) GetById(id string)(*models.Comment,error){
+	var comment models.Comment
+	if err:=repo.db.First(&comment,"id=?",id).Error; err!=nil{
+		return nil,err
 	}
-	_comment.Content = comment.Content
-	if err := repo.db.Save(&_comment).Error; err != nil {
-		return nil, err
+	return &comment,nil
+}
+
+func (repo *commentRepository) UpdateComment(comment *models.Comment) error {
+	if err := repo.db.Save(&comment).Error; err != nil {
+		return err
 	}
-	return &_comment, nil
+	return  nil
 }
 
 func (repo *commentRepository) Delete(id string) error {
