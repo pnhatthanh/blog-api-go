@@ -19,10 +19,10 @@ type CommentHandler interface {
 
 type commentHandler struct {
 	commentService services.CommentService
-	logger         zerolog.Logger
+	logger         *zerolog.Logger
 }
 
-func NewCommentHandler(service services.CommentService, logger zerolog.Logger) *commentHandler {
+func NewCommentHandler(service services.CommentService, logger *zerolog.Logger) *commentHandler {
 	return &commentHandler{
 		commentService: service,
 		logger:         logger,

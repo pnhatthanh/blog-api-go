@@ -18,11 +18,11 @@ type AuthHandler interface {
 
 type authHandler struct {
 	authService services.AuthService
-	logger      zerolog.Logger
+	logger      *zerolog.Logger
 	userService services.UserService
 }
 
-func NewAuthHandler(authService services.AuthService, userService services.UserService, logger zerolog.Logger) *authHandler {
+func NewAuthHandler(authService services.AuthService, userService services.UserService, logger *zerolog.Logger) *authHandler {
 	return &authHandler{
 		authService: authService,
 		userService: userService,
@@ -76,12 +76,13 @@ func (handler *authHandler) RefreshToken(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, utils.GetErrorResponse(err.Error()))
 		return
 	}
-	userId, err := utils.GetUserIdByToken(tokenDto.AccessToken)
+	claims, err := utils.ValidateRefershToken(tokenDto.RefereshToken)
 	if err != nil {
 		handler.logger.Error().Err(err).Msg("Invalid refresh token")
 		context.JSON(http.StatusUnauthorized, utils.GetErrorResponse("Invalid refresh token"))
 		return
 	}
+	userId:=claims["sub"].(string)
 	accessToken, refreshToken, err := utils.GenerateToken(userId)
 	if err != nil {
 		handler.logger.Error().Err(err).Msg("Failed to generate new token")

@@ -4,6 +4,7 @@ import (
 	"blogapi/internal/dtos"
 	"blogapi/internal/models"
 	"blogapi/internal/repositories"
+	"errors"
 )
 
 type CommentService interface {
@@ -33,14 +34,22 @@ func (serv *commentService) CreateComment(userId string, comment *dtos.CommentIn
 	}
 	return serv.commentRepo.CreateComment(&_comment)
 }
-func (serv *commentService) UpdateComment(id string, comment *dtos.CommentInput) (*models.Comment, error) {
+func (serv *commentService) UpdateComment(id, userId string, comment *dtos.CommentInput) (*models.Comment, error) {
 	_comment, err := serv.commentRepo.GetById(id)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Comment not found")
+	}
+	if userId != _comment.UserId {
+		return nil, errors.New("Unauthorized: You can only update your own comment")
 	}
 	_comment.Content = comment.Content
-	return _comment, serv.commentRepo.UpdateComment(_comment)
+	err = serv.commentRepo.UpdateComment(_comment)
+	if err != nil {
+		return nil, errors.New("Failed to update comment")
+	}
+	return _comment, nil
 }
+
 func (serv *commentService) Delete(id string) error {
 	return serv.commentRepo.Delete(id)
 }

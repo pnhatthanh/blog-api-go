@@ -9,8 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 )
-
-// PostHandler định nghĩa các phương thức xử lý bài viết
 type PostHandler interface {
 	GetAllPosts(context *gin.Context)
 	GetPostById(context *gin.Context)
@@ -20,10 +18,10 @@ type PostHandler interface {
 
 type postHandler struct {
 	postService services.PostService
-	logger      zerolog.Logger
+	logger      *zerolog.Logger
 }
 
-func NewPostHandler(service services.PostService, logger zerolog.Logger) *postHandler {
+func NewPostHandler(service services.PostService, logger *zerolog.Logger) *postHandler {
 	return &postHandler{
 		postService: service,
 		logger:      logger,

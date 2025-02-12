@@ -10,9 +10,7 @@ import (
 )
 
 type UserHandler interface {
-	CreateUser(c *gin.Context)
 	UpdateUser(c *gin.Context)
-	GetUserByEmail(c *gin.Context)
 	GetUserById(c *gin.Context)
 	DeleteUser(c *gin.Context)
 }
@@ -26,7 +24,7 @@ func NewUserHandler(userService services.UserService) *userHandler {
 }
 
 func (h *userHandler) UpdateUser(c *gin.Context) {
-	id := c.Param("id")
+	id := utils.GetUserIdFromContext(c)
 	var userInput dtos.UpdateUserInput
 
 	if err := c.ShouldBindJSON(&userInput); err != nil {
