@@ -41,7 +41,7 @@ func ConnectWithDb() *gorm.DB {
 		dbConfig.DbHost,
 		dbConfig.DbPort,
 		dbConfig.DbName)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{}) 	 	 	
 
 	if err != nil {
 		panic("Falied to create connection db")

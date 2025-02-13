@@ -8,14 +8,18 @@ import (
 )
 
 type User struct {
-	Id        string `gorm:"primaryKey"`
-	FullName  string
-	Email     string
-	Password  string    `json:"-"`
+	Id        string    `gorm:"primaryKey;type:varchar(36)"`
+	FullName  string    `gorm:"type:varchar(255);not null"`
+	Email     string    `gorm:"unique;not null"`
+	Password  string    `json:"-" gorm:"not null"`
 	CreatedAt time.Time `json:"-"`
+
+	// Quan hệ
+	Posts    []Post    `gorm:"foreignKey:UserId"`
+	Comments []Comment `gorm:"foreignKey:UserId"`
 }
 
 func (u *User) BeforeCreate(db *gorm.DB) (err error) {
 	u.Id = uuid.New().String()
-	return
+	return nil
 }
