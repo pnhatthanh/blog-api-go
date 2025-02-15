@@ -14,7 +14,6 @@ type User struct {
 	Password  string    `json:"-" gorm:"not null"`
 	CreatedAt time.Time `json:"-"`
 
-	// Quan hệ
 	Posts    []Post    `gorm:"foreignKey:UserId"`
 	Comments []Comment `gorm:"foreignKey:UserId"`
 }

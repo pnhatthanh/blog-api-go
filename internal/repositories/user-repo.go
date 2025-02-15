@@ -33,7 +33,7 @@ func (repo *userRepository) Update(user *models.User) (*models.User, error) {
 
 func (repo *userRepository) GetByEmail(email string) (*models.User, error) {
 	var _user models.User
-	if err := repo.db.Find(&_user, "email=?", email).Error; err != nil {
+	if err := repo.db.Where("email = ?", email).First(&_user).Error; err != nil {
 		return nil, err
 	}
 	return &_user, nil
@@ -41,7 +41,7 @@ func (repo *userRepository) GetByEmail(email string) (*models.User, error) {
 
 func (repo *userRepository) GetById(id string) (*models.User, error) {
 	var _user models.User
-	if err := repo.db.Find(&_user, "id=?", id).Error; err != nil {
+	if err := repo.db.First(&_user, "id=?", id).Error; err != nil {
 		return nil, err
 	}
 	return &_user, nil
@@ -49,7 +49,7 @@ func (repo *userRepository) GetById(id string) (*models.User, error) {
 
 func (repo *userRepository) Delete(id string) error {
 	var _user models.User
-	if err := repo.db.Find(&_user, "id=?", id).Error; err != nil {
+	if err := repo.db.First(&_user, "id=?", id).Error; err != nil {
 		return err
 	}
 	if err := repo.db.Delete(&_user).Error; err != nil {

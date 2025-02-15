@@ -24,10 +24,9 @@ func (auth *authService) Login(user *dtos.UserLogin) (string, string, error) {
 	if err != nil {
 		return "", "", errors.New("invalid email or password")
 	}
-	if !utils.CheckPasswordHash(_user.Password, user.Password) {
+	if !utils.CheckPasswordHash(user.Password, _user.Password) {
 		return "", "", errors.New("invalid email or password")
 	}
-
 	accessToken, refreshToken, err := utils.GenerateToken(_user.Id)
 	if err != nil {
 		return "", "", errors.New("failed to generate token")

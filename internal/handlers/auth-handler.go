@@ -82,6 +82,7 @@ func (handler *authHandler) RefreshToken(context *gin.Context) {
 		context.JSON(http.StatusUnauthorized, utils.GetErrorResponse("Invalid refresh token"))
 		return
 	}
+
 	userId:=claims["sub"].(string)
 	accessToken, refreshToken, err := utils.GenerateToken(userId)
 	if err != nil {

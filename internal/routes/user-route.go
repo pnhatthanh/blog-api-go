@@ -19,5 +19,5 @@ func UserRoute(db *gorm.DB, route *gin.RouterGroup, logger *zerolog.Logger) {
 	)
 	route.GET("/:id", userHandler.GetUserById)
 	route.PUT("/update", middlewares.AuthenticateJWT(), userHandler.UpdateUser)
-	route.DELETE("/:id", middlewares.AuthenticateJWT(), userHandler.DeleteUser)
+	route.DELETE("/delete/:id", middlewares.AuthenticateJWT(), userHandler.DeleteUser)
 }

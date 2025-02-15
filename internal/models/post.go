@@ -15,7 +15,6 @@ type Post struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 
-	// Quan hệ
 	User     User      `gorm:"foreignKey:UserId"`
 	Comments []Comment `gorm:"foreignKey:PostId"`
 }

@@ -3,6 +3,7 @@ package utils
 import (
 	"blogapi/config"
 	"errors"
+
 	"os"
 	"time"
 
@@ -10,8 +11,8 @@ import (
 )
 
 var (
-	ACCESS_TOKEN_EXPIRATION_TIME, _  = time.ParseDuration(config.GetEnvOrDefault("ACCESS_TOKEN", "15"))
-	REFRESH_TOKEN_EXPIRATION_TIME, _ = time.ParseDuration(config.GetEnvOrDefault("ACCESS_TOKEN", "60"))
+	ACCESS_TOKEN_EXPIRATION_TIME, _  = time.ParseDuration(config.GetEnvOrDefault("ACCESS_TOKEN", "15m"))
+	REFRESH_TOKEN_EXPIRATION_TIME, _ = time.ParseDuration(config.GetEnvOrDefault("REFRESH_TOKEN", "60m"))
 )
 
 func GenerateToken(userId string) (string, string, error) {
