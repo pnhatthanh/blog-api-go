@@ -21,5 +21,5 @@ func CommentRoute(db *gorm.DB, route *gin.RouterGroup, logger *zerolog.Logger) {
 	route.GET("", commentHandler.GetAllComments)
 	route.POST("", middlewares.AuthenticateJWT(), commentHandler.CreateComment)
 	route.PUT("/:id", middlewares.AuthenticateJWT(), commentHandler.UpdateComment)
-	route.DELETE("/:id", middlewares.AuthenticateJWT(), commentHandler.DeleteComment)
+	route.DELETE("/delete/:id", middlewares.AuthenticateJWT(), commentHandler.DeleteComment)
 }

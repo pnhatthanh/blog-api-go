@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"blogapi/internal/middlewares"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -19,9 +20,10 @@ func NewAPIServer(port string, db *gorm.DB) *APIServer {
 		Db:      db,
 	}
 }
-func (s *APIServer) Run() error {
+func (s *APIServer) Run() error 	{
 	logger := zerolog.New(os.Stderr).With().Timestamp().Logger()
 	router := gin.Default()
+	router.Use(middlewares.CORS())
 	route := router.Group("/api/v1")
 	authRoute := route.Group("/auth")
 	AuthRoute(s.Db, authRoute, &logger)
